@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWatt - Optimization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2B3A67;
+        }
+
+        .logo span {
+            color: #4CAF50;
+        }
+
+        .back-button {
+            color: #2B3A67;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            color: #2B3A67;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #4CAF50, #2B3A67);
+        }
+
+        .chart-container h3 {
+            color: #2B3A67;
+            margin-bottom: 2rem;
+            font-size: 1.4rem;
+            position: relative;
+        }
+
+        .chart-container canvas {
+            margin: 1rem auto;
+            max-width: 400px;  /* Increased from 300px */
+            height: auto;
+        }
+
+        .recommendations {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .recommendations h3 {
+            color: #2B3A67;
+            margin-bottom: 1.5rem;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #2B3A67;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .recommendations li:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+
+        .recommendation-icon {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #2B3A67;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Eco<span>Watt</span></div>
+        <a href="#" class="back-button">← Back to Dashboard</a>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Optimization Dashboard</h1>
+            <p style="color: #666;">Track and improve your energy efficiency</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">70%</div>
+                <div class="stat-label">Goal Achievement</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">₹850</div>
+                <div class="stat-label">Monthly Savings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">15%</div>
+                <div class="stat-label">Usage Reduction</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="chart-container">
+                <h3>Goal Progress</h3>
+                <canvas id="donutChart"></canvas>
+            </div>
+
+            <div class="recommendations">
+                <h3>Smart Recommendations</h3>
+                <ul>
+                    <li>
+                        <div class="recommendation-icon">💡</div>
+                        <span>Switch to LED bulbs to reduce lighting costs by up to 80%</span>
+                    </li>
+                    <li>
+                        <div class="recommendation-icon">🔌</div>
+                        <span>Unplug devices when not in use to eliminate standby power consumption</span>
+                    </li>
+                    <li>
+                        <div class="recommendation-icon">🌡️</div>
+                        <span>Install smart thermostats for optimal temperature control</span>
+                    </li>
+                    <li>
+                        <div class="recommendation-icon">⚙️</div>
+                        <span>Enable energy-saving modes on all compatible appliances</span>
+                    </li>
+                    <li>
+                        <div class="recommendation-icon">☀️</div>
+                        <span>Maximize natural light usage during daytime hours</span>
+                    </li>
+                    <li>
+                        <div class="recommendation-icon">⏰</div>
+                        <span>Schedule heavy appliance usage during off-peak hours</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('donutChart').getContext('2d');
+        
+        // Plugin for center text
+        const centerTextPlugin = {
+            id: 'centerText',
+            afterDraw: (chart) => {
+                const width = chart.width;
+                const height = chart.height;
+                const ctx = chart.ctx;
+                
+                ctx.restore();
+                ctx.font = "bold 40px 'Segoe UI'";  // Increased font size
+                ctx.textBaseline = "middle";
+                ctx.textAlign = "center";
+                
+                // Combined percentage text
+                ctx.fillStyle = "#2B3A67";
+                ctx.fillText(chart.data.datasets[0].data[0] + "%", width / 2, height / 2);
+                
+                ctx.save();
+            }
+        };
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Goal Achieved', 'Remaining'],
+                datasets: [{
+                    data: [70, 30],
+                    backgroundColor: [
+                        '#4CAF50',  // EcoWatt green
+                        '#e9ecef'   // Light gray
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '80%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true,
+                    duration: 2000
+                }
+            },
+            plugins: [centerTextPlugin]
+        });
+    </script>
+</body>
+</html>

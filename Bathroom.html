@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bathroom - EcoWatt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2B3A67;
+        }
+
+        .logo span {
+            color: #4CAF50;
+        }
+
+        .back-button {
+            color: #2B3A67;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .room-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .room-header h1 {
+            color: #2B3A67;
+            font-size: 2rem;
+        }
+
+        .room-stats {
+            text-align: right;
+        }
+
+        .total-power {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .appliances-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .appliance-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .appliance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .appliance-name {
+            color: #2B3A67;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .appliance-icon {
+            width: 24px;
+            height: 24px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .power-usage {
+            margin-top: 1.5rem;
+        }
+
+        .power-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .power-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .power-fill[data-level="low"] {
+            background: #2ECC71;
+        }
+
+        .power-fill[data-level="medium"] {
+            background: #FFD700;
+        }
+
+        .power-fill[data-level="high"] {
+            background: #FF4444;
+        }
+
+        .power-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .instant-power {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Eco<span>Watt</span></div>
+        <a href="#" class="back-button">← Back to Dashboard</a>
+    </nav>
+
+    <div class="main-content">
+        <div class="room-header">
+            <h1>Bathroom</h1>
+            <div class="room-stats">
+                <div class="total-power">2.5 kWh</div>
+                <div>Today's Usage</div>
+            </div>
+        </div>
+
+        <div class="appliances-grid">
+            <!-- Water Heater -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">🚿</div>
+                        Water Heater
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'heater-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="heater-power" class="power-fill" data-level="high" style="width: 85%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">2000W</span>
+                        <span>2500W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exhaust Fan -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">💨</div>
+                        Exhaust Fan
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'exhaust-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="exhaust-power" class="power-fill" data-level="low" style="width: 25%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">30W</span>
+                        <span>100W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hair Dryer -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">💇</div>
+                        Hair Dryer
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'dryer-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="dryer-power" class="power-fill" data-level="high" style="width: 75%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">1500W</span>
+                        <span>2000W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bathroom Lights -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">💡</div>
+                        Bathroom Lights
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'lights-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="lights-power" class="power-fill" data-level="low" style="width: 30%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">40W</span>
+                        <span>100W</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updatePowerUsage(checkbox, powerId) {
+            console.log('Device ' + powerId + ' switched ' + (checkbox.checked ? 'on' : 'off'));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.power-fill');
+            progressBars.forEach(bar => {
+                const width = parseInt(bar.style.width);
+                if (width < 50) {
+                    bar.setAttribute('data-level', 'low');
+                } else if (width < 60) {
+                    bar.setAttribute('data-level', 'medium');
+                } else {
+                    bar.setAttribute('data-level', 'high');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWatt - Power Consumption Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2B3A67;
+        }
+
+        .logo span {
+            color: #4CAF50;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .profile-info h1 {
+            color: #2B3A67;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .consumption-limits {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .limit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: #2B3A67;
+            font-weight: 500;
+        }
+
+        .form-group input[type="number"] {
+            padding: 0.8rem;
+            border: 2px solid #e1e5ee;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="number"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .limit-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .limit-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .limit-label {
+            color: #2B3A67;
+            font-weight: 500;
+        }
+
+        .limit-value {
+            color: #4CAF50;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .notification-settings {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .section-title {
+            color: #2B3A67;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .notification-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .notification-label {
+            color: #2B3A67;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Eco<span>Watt</span></div>
+        <a href="#" class="back-button">← Back to Dashboard</a>
+    </nav>
+
+    <div class="main-content">
+        <div class="profile-header">
+            <div class="profile-avatar">A</div>
+            <div class="profile-info">
+                <h1>Power Consumption Profile</h1>
+                <p style="color: #666;">Set and manage your power consumption limits</p>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            <div class="consumption-limits">
+                <h2 class="section-title">Power Consumption Limits</h2>
+                <div class="limit-form">
+                    <div class="limit-card">
+                        <div class="limit-info">
+                            <span class="limit-label">Daily Limit</span>
+                            <span class="limit-value">10 kWh</span>
+                        </div>
+                        <button onclick="editLimit('daily')">Edit</button>
+                    </div>
+
+                    <div class="limit-card">
+                        <div class="limit-info">
+                            <span class="limit-label">Monthly Limit</span>
+                            <span class="limit-value">300 kWh</span>
+                        </div>
+                        <button onclick="editLimit('monthly')">Edit</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Set New Limit (kWh)</label>
+                        <input type="number" id="newLimit" placeholder="Enter power limit" min="0" step="0.1">
+                    </div>
+
+                    <button onclick="saveLimit()">Save Changes</button>
+                </div>
+            </div>
+
+            <div class="notification-settings">
+                <h2 class="section-title">Notification Preferences</h2>
+                
+                <div class="notification-group">
+                    <span class="notification-label">90% of limit reached</span>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-group">
+                    <span class="notification-label">75% of limit reached</span>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-group">
+                    <span class="notification-label">50% of limit reached</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-group">
+                    <span class="notification-label">Daily usage summary</span>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function editLimit(type) {
+            const input = document.getElementById('newLimit');
+            const currentValue = type === 'daily' ? 10 : 300;
+            input.value = currentValue;
+            input.focus();
+        }
+
+        function saveLimit() {
+            const newValue = document.getElementById('newLimit').value;
+            alert(`New limit saved: ${newValue} kWh`);
+        }
+    </script>
+</body>
+</html>
