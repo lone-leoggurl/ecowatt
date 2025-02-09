@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Living Room - EcoWatt</title>
+    <title>Kitchen - EcoWatt</title>
     <style>
         * {
             margin: 0;
@@ -115,7 +115,6 @@
             justify-content: center;
         }
 
-        /* Switch styling */
         .switch {
             position: relative;
             display: inline-block;
@@ -161,7 +160,6 @@
             transform: translateX(26px);
         }
 
-        /* Progress bar styling */
         .power-usage {
             margin-top: 1.5rem;
         }
@@ -180,17 +178,16 @@
             transition: all 0.3s ease;
         }
 
-        /* Progress bar color states */
         .power-fill[data-level="low"] {
-            background: #2ECC71; /* Pure green for low usage */
+            background: #2ECC71;
         }
 
         .power-fill[data-level="medium"] {
-            background: #FFD700; /* Yellow for medium usage (50%) */
+            background: #FFD700;
         }
 
         .power-fill[data-level="high"] {
-            background: #FF4444; /* Red for high usage */
+            background: #FF4444;
         }
 
         .power-stats {
@@ -215,106 +212,154 @@
 
     <div class="main-content">
         <div class="room-header">
-            <h1>Living Room</h1>
+            <h1>Kitchen</h1>
             <div class="room-stats">
-                <div class="total-power">2.4 kWh</div>
+                <div class="total-power">4.8 kWh</div>
                 <div>Today's Usage</div>
             </div>
         </div>
 
         <div class="appliances-grid">
-            <!-- Tube Light -->
-            <div class="appliance-card">
-                <div class="appliance-header">
-                    <div class="appliance-name">
-                        <div class="appliance-icon">💡</div>
-                        Tube Light
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" onchange="updatePowerUsage(this, 'tube-power')">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="power-usage">
-                    <div class="power-bar">
-                        <div id="tube-power" class="power-fill" data-level="low" style="width: 30%"></div>
-                    </div>
-                    <div class="power-stats">
-                        <span>0W</span>
-                        <span class="instant-power">40W</span>
-                        <span>100W</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fan -->
-            <div class="appliance-card">
-                <div class="appliance-header">
-                    <div class="appliance-name">
-                        <div class="appliance-icon">🌀</div>
-                        Fan
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" onchange="updatePowerUsage(this, 'fan-power')">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="power-usage">
-                    <div class="power-bar">
-                        <div id="fan-power" class="power-fill" data-level="medium" style="width: 50%"></div>
-                    </div>
-                    <div class="power-stats">
-                        <span>0W</span>
-                        <span class="instant-power">75W</span>
-                        <span>150W</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Air Conditioner -->
+            <!-- Refrigerator -->
             <div class="appliance-card">
                 <div class="appliance-header">
                     <div class="appliance-name">
                         <div class="appliance-icon">❄️</div>
-                        Air Conditioner
+                        Refrigerator
                     </div>
                     <label class="switch">
-                        <input type="checkbox" onchange="updatePowerUsage(this, 'ac-power')">
+                        <input type="checkbox" checked disabled onchange="updatePowerUsage(this, 'fridge-power')">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="power-usage">
                     <div class="power-bar">
-                        <div id="ac-power" class="power-fill" data-level="high" style="width: 80%"></div>
-                    </div>
-                    <div class="power-stats">
-                        <span>0W</span>
-                        <span class="instant-power">1200W</span>
-                        <span>1500W</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Power Plug -->
-            <div class="appliance-card">
-                <div class="appliance-header">
-                    <div class="appliance-name">
-                        <div class="appliance-icon">🔌</div>
-                        Power Plug
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" onchange="updatePowerUsage(this, 'plug-power')">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="power-usage">
-                    <div class="power-bar">
-                        <div id="plug-power" class="power-fill" data-level="low" style="width: 25%"></div>
+                        <div id="fridge-power" class="power-fill" data-level="medium" style="width: 45%"></div>
                     </div>
                     <div class="power-stats">
                         <span>0W</span>
                         <span class="instant-power">150W</span>
-                        <span>500W</span>
+                        <span>300W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Induction Cooktop -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">🍳</div>
+                        Induction Cooktop
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'induction-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="induction-power" class="power-fill" data-level="high" style="width: 75%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">1800W</span>
+                        <span>2400W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Microwave Oven -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">📟</div>
+                        Microwave Oven
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'microwave-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="microwave-power" class="power-fill" data-level="high" style="width: 70%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">900W</span>
+                        <span>1200W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Electric Kettle -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">☕</div>
+                        Electric Kettle
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'kettle-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="kettle-power" class="power-fill" data-level="high" style="width: 65%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">1500W</span>
+                        <span>2000W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dishwasher -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">🍽️</div>
+                        Dishwasher
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'dishwasher-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="dishwasher-power" class="power-fill" data-level="medium" style="width: 55%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">1200W</span>
+                        <span>2000W</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kitchen Lights -->
+            <div class="appliance-card">
+                <div class="appliance-header">
+                    <div class="appliance-name">
+                        <div class="appliance-icon">💡</div>
+                        Kitchen Lights
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" onchange="updatePowerUsage(this, 'lights-power')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="power-usage">
+                    <div class="power-bar">
+                        <div id="lights-power" class="power-fill" data-level="low" style="width: 25%"></div>
+                    </div>
+                    <div class="power-stats">
+                        <span>0W</span>
+                        <span class="instant-power">60W</span>
+                        <span>200W</span>
                     </div>
                 </div>
             </div>
@@ -326,20 +371,18 @@
             window.location.href = `/dashboard.html`
         }
         function updatePowerUsage(checkbox, powerId) {
-            // Only handle the switch toggle, don't modify the progress bar
             console.log('Device ' + powerId + ' switched ' + (checkbox.checked ? 'on' : 'off'));
         }
 
-        // Initialize progress bars with their color states
         document.addEventListener('DOMContentLoaded', function() {
             const progressBars = document.querySelectorAll('.power-fill');
             progressBars.forEach(bar => {
                 const width = parseInt(bar.style.width);
                 if (width < 50) {
                     bar.setAttribute('data-level', 'low');
-                } else if (width === 50) {
+                } else if (width < 60) {
                     bar.setAttribute('data-level', 'medium');
-                } else if (width > 50) {
+                } else {
                     bar.setAttribute('data-level', 'high');
                 }
             });

@@ -138,8 +138,8 @@
             <h1>Eco<span>Watt</span></h1>
         </div>
         <div class="cta-buttons">
-            <button class="sign-in">Sign In</button>
-            <button class="sign-up">Sign Up</button>
+            <button class="sign-in" onclick="navigateTo('Signin')">Sign In</button>
+            <button class="sign-up" onclick="navigateTo('Signup')">Sign Up</button>
         </div>
     </nav>
 
@@ -172,5 +172,10 @@
     <footer>
         <p>&copy; 2025 EcoWatt. Every Watt Counts.</p>
     </footer>
+    <script>
+        function navigateTo(roomId) {
+            window.location.href = `/${roomId}.html`
+        }
+    </script>
 </body>
 </html>

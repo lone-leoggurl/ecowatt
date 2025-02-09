@@ -169,7 +169,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">Eco<span>Watt</span></div>
-        <a href="#" class="back-button" style="color: #2B3A67; text-decoration: none;">← Back to Dashboard</a>
+        <a href="#" class="back-button" style="color: #2B3A67; text-decoration: none;" onclick=navigateToDashboard()>← Back to Dashboard</a>
     </nav>
 
     <div class="main-content">
@@ -220,6 +220,9 @@
     </div>
 
     <script>
+        function navigateToDashboard(){
+            window.location.href = 'Dashboard.html'
+        }
         function clearNotifications() {
             const container = document.querySelector('.notifications-container');
             container.innerHTML = '';

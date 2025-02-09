@@ -37,6 +37,40 @@
             color: #4CAF50;
         }
 
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            color: #2B3A67;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+        }
+
         .main-content {
             padding: 2rem;
             max-width: 1400px;
@@ -52,17 +86,6 @@
             color: white;
             position: relative;
             overflow: hidden;
-        }
-
-        .welcome-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" opacity="0.1"><path d="M12 3v18M3 12h18"/></svg>') repeat;
-            opacity: 0.1;
         }
 
         .welcome-section h2 {
@@ -164,6 +187,32 @@
             color: white;
         }
 
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            padding: 1rem;
+            border: none;
+            background: #2B3A67;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-button:hover {
+            background: #4CAF50;
+            transform: translateY(-2px);
+        }
+
         .rooms {
             background: white;
             padding: 2rem;
@@ -188,7 +237,6 @@
         .room-card:hover {
             background: #4CAF50;
             color: white;
-            transform: translateY(-2px);
         }
 
         .room-header {
@@ -223,6 +271,14 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
+        .insights {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #E8F5E9;
+            border-radius: 8px;
+            color: #2E7D32;
+        }
+
         .alert-section {
             background: #FFF3E0;
             padding: 1rem;
@@ -244,40 +300,6 @@
             color: white;
         }
 
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .action-button {
-            padding: 1rem;
-            border: none;
-            background: #2B3A67;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .action-button:hover {
-            background: #4CAF50;
-            transform: translateY(-2px);
-        }
-
-        .insights {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #E8F5E9;
-            border-radius: 8px;
-            color: #2E7D32;
-        }
-
         @media (max-width: 768px) {
             .main-content {
                 padding: 1rem;
@@ -296,8 +318,12 @@
 <body>
     <nav class="navbar">
         <div class="logo">Eco<span>Watt</span></div>
-        <div class="user-profile">
-            <span style="color: #2B3A67;">Welcome, Aravind</span>
+        <div class="user-profile" onclick="toggleDropdown()">
+            <span style="color: #2B3A67;">Welcome, Aleena</span>
+            <div class="dropdown-menu" id="userDropdown">
+                <a class="dropdown-item" onclick="navigateToProfile()">View Profile</a>
+                <a class="dropdown-item" onclick="handleLogout()">Logout</a>
+            </div>
         </div>
     </nav>
 
@@ -306,9 +332,9 @@
             <h2>Smart Energy Dashboard</h2>
             <p>Monitor, analyze, and optimize your home's energy consumption</p>
             <div class="quick-actions">
-                <button class="action-button">📊 Notifications</button>
-                <button class="action-button">⚡ Power Saving Mode</button>
-                <button class="action-button">🔔 Set Usage Alerts</button>
+                <button class="action-button" onclick="navigateToNotifications()">📊 Notifications</button>
+                <button class="action-button" onclick="togglePowerSaving()">⚡ Power Saving Mode</button>
+                <button class="action-button" onclick="navigateToProfile()">🔔 Set Usage Alerts</button>
             </div>
         </section>
 
@@ -344,6 +370,7 @@
                         <button>Week</button>
                         <button>Month</button>
                     </div>
+                    <button onclick=navigateToOrganization()>View Power Distribution</button>
                 </div>
                 <canvas id="powerChart"></canvas>
             </div>
@@ -362,7 +389,7 @@
 
         <div class="rooms">
             <h3>Room Analytics</h3>
-            <div class="room-card">
+            <div class="room-card" onclick="navigateToRoom('Living')">
                 <div class="room-header">
                     <span class="room-name">Living Room</span>
                     <span class="room-usage">2.4 kWh</span>
@@ -374,7 +401,7 @@
                 </div>
                 <div class="insights">💡 Tip: Consider using natural light during peak hours</div>
             </div>
-            <div class="room-card">
+            <div class="room-card" onclick="navigateToRoom('Kitchen')"></div>
                 <div class="room-header">
                     <span class="room-name">Kitchen</span>
                     <span class="room-usage">4.8 kWh</span>
@@ -389,7 +416,7 @@
                     <span>High usage detected in refrigerator</span>
                 </div>
             </div>
-            <div class="room-card">
+            <div class="room-card" onclick="navigateToRoom('Bedroom')">
                 <div class="room-header">
                     <span class="room-name">Bedroom</span>
                     <span class="room-usage">3.2 kWh</span>
@@ -401,7 +428,7 @@
                 </div>
                 <div class="insights">💡 Great job! Optimal AC temperature maintained</div>
             </div>
-            <div class="room-card">
+            <div class="room-card" onclick="navigateToRoom('Bathroom')">
                 <div class="room-header">
                     <span class="room-name">Bathroom</span>
                     <span class="room-usage">2.5 kWh</span>
@@ -416,94 +443,183 @@
     </div>
 
     <script>
-        // Power Distribution Chart
-        const powerCtx = document.getElementById('powerChart').getContext('2d');
-        new Chart(powerCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Living Room', 'Kitchen', 'Bedroom', 'Bathroom', 'Others'],
-                datasets: [{
-                    data: [30, 25, 20, 15, 10],
-                    backgroundColor: [
-                        '#FF6B6B',
-                        '#4ECDC4',
-                        '#45B7D1',
-                        '#96CEB4',
-                        '#FFEEAD'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            font: {
-                                size: 14
+        function navigateToOrganization() {
+            window.location.href = 'Optimization.html'
+        }
+        // User dropdown functionality
+        function toggleDropdown() {
+            document.getElementById('userDropdown').classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.user-profile') && !event.target.matches('.user-profile *')) {
+                const dropdowns = document.getElementsByClassName('dropdown-menu');
+                for (const dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function navigateToProfile(){
+            window.location.href(`Profile.html`)
+        }
+
+        // Logout functionality
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'Signin.html';
+            }
+        }
+
+        // Room navigation function
+        function navigateToRoom(roomId) {
+            // You can customize the URL format based on your file structure
+            window.location.href = `/${roomId}.html`;
+        }
+
+        // Navigation functions
+        function navigateToNotifications() {
+            window.location.href = 'Notification.html';
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'Profile.html';
+        }
+
+        // Power saving mode toggle
+        function togglePowerSaving() {
+            alert('Power Saving Mode Activated! Your devices will now operate in energy-efficient mode.');
+        }
+
+        // Generate random data for charts
+        function generateRandomData(count, min = 0, max = 100) {
+            return Array.from({ length: count }, () => Math.floor(Math.random() * (max - min) + min));
+        }
+
+        // Chart initialization and update functions
+        let powerChart, trendChart;
+
+        function initializeCharts() {
+            // Power Distribution Chart
+            const powerCtx = document.getElementById('powerChart').getContext('2d');
+            powerChart = new Chart(powerCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Living Room', 'Kitchen', 'Bedroom', 'Bathroom', 'Others'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: [
+                            '#FF6B6B',
+                            '#4ECDC4',
+                            '#45B7D1',
+                            '#96CEB4',
+                            '#FFEEAD'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
 
-        // Usage Trends Chart
-        const trendCtx = document.getElementById('trendChart').getContext('2d');
-        new Chart(trendCtx, {
-            type: 'line',
-            data: {
-                labels: ['6AM', '9AM', '12PM', '3PM', '6PM', '9PM', '12AM', '3AM'],
-                datasets: [
-                    {
-                        label: 'Today',
-                        data: [2.5, 4.8, 5.2, 4.9, 6.1, 5.5, 3.2, 1.8],
-                        borderColor: '#4CAF50',
-                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    },
-                    {
-                        label: 'Yesterday',
-                        data: [2.3, 4.5, 5.8, 5.2, 5.9, 5.2, 3.5, 2.0],
-                        borderColor: '#2B3A67',
-                        backgroundColor: 'rgba(43, 58, 103, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
+            // Usage Trends Chart
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['6AM', '9AM', '12PM', '3PM', '6PM', '9PM', '12AM', '3AM'],
+                    datasets: [
+                        {
+                            label: 'Today',
+                            data: [2.5, 4.8, 5.2, 4.9, 6.1, 5.5, 3.2, 1.8],
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Yesterday',
+                            data: [2.3, 4.5, 5.8, 5.2, 5.9, 5.2, 3.5, 2.0],
+                            borderColor: '#2B3A67',
+                            backgroundColor: 'rgba(43, 58, 103, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Energy Usage (kWh)'
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Energy Usage (kWh)'
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
 
-        // Add click event listeners to time filter buttons
-        document.querySelectorAll('.time-filter').forEach(filter => {
-            filter.querySelectorAll('button').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons in this filter
-                    filter.querySelectorAll('button').forEach(btn => {
-                        btn.classList.remove('active');
+        // Update charts based on time filter
+        function updateCharts(timeframe) {
+            // Update Power Distribution Chart with random data
+            const powerData = generateRandomData(5, 10, 40);
+            powerChart.data.datasets[0].data = powerData;
+            powerChart.update();
+
+            // Update Usage Trends Chart
+            const labels = {
+                'Day': ['6AM', '9AM', '12PM', '3PM', '6PM', '9PM', '12AM', '3AM'],
+                'Week': ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                'Month': ['Week 1', 'Week 2', 'Week 3', 'Week 4']
+            };
+
+            const dataPoints = labels[timeframe].length;
+            trendChart.data.labels = labels[timeframe];
+            trendChart.data.datasets[0].data = generateRandomData(dataPoints, 1, 8);
+            trendChart.data.datasets[1].data = generateRandomData(dataPoints, 1, 8);
+            trendChart.update();
+        }
+
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCharts();
+
+            // Add click event listeners to time filter buttons
+            document.querySelectorAll('.time-filter').forEach(filter => {
+                filter.querySelectorAll('button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Remove active class from all buttons in this filter
+                        filter.querySelectorAll('button').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        // Update charts with new timeframe
+                        updateCharts(this.textContent);
                     });
-                    // Add active class to clicked button
-                    this.classList.add('active');
                 });
             });
         });

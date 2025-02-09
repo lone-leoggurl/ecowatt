@@ -238,7 +238,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">Eco<span>Watt</span></div>
-        <a href="#" class="back-button">← Back to Dashboard</a>
+        <a href="#" class="back-button" onclick=navigateToDashboard()>← Back to Dashboard</a>
     </nav>
 
     <div class="main-content">
@@ -318,6 +318,9 @@
     </div>
 
     <script>
+        function navigateToDashboard() {
+            window.location.href = `Dashboard.html`
+        }
         function editLimit(type) {
             const input = document.getElementById('newLimit');
             const currentValue = type === 'daily' ? 10 : 300;
