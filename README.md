@@ -60,14 +60,13 @@ For Software:
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![image](https://github.com/user-attachments/assets/b2709675-3ced-404b-9fe4-7070e5471833)
+Dashboard
+![image](https://github.com/user-attachments/assets/217ba036-f1c2-4399-bfaf-f8ba322b766f)
+Home page
+![image](https://github.com/user-attachments/assets/1fb38503-4a3f-44e2-9033-4fbe334eb79d)
+Notifications
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -83,7 +82,8 @@ For Hardware:
 *Add caption explaining the schematic*
 
 # Build Photos
-![Team](Add photo of your team here)
+![image](https://github.com/user-attachments/assets/b5029a78-83e0-4bfe-9c16-4d71e1f1289b)
+
 
 
 ![Components](Add photo of your components here)
@@ -97,7 +97,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[(https://drive.google.com/file/d/1z_209sidFmJmhatuTlLEhjx_6F7EL7VH/view?usp=sharing)]
 *Explain what the video demonstrates*
 
 # Additional Demos
